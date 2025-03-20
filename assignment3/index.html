@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Basics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>JavaScript Basic Operations</h2>
+
+    <h3>BMI Calculator</h3>
+    <label>Weight (kg):</label>
+    <input type="number" id="weight" placeholder="Enter weight">
+    <label>Height (m):</label>
+    <input type="number" id="height" placeholder="Enter height">
+    <button onclick="calculateBMI()">Calculate BMI</button>
+    <p id="bmiResult"></p>
+
+    <h3>Temperature Converter</h3>
+    <label>Temperature:</label>
+    <input type="number" id="temperature" placeholder="Enter temperature">
+    <select id="unit">
+        <option value="C">Celsius to Fahrenheit</option>
+        <option value="F">Fahrenheit to Celsius</option>
+    </select>
+    <button onclick="convertTemperature()">Convert</button>
+    <p id="tempResult"></p>
+
+    <h3>User Table (Generated with Loops)</h3>
+    <table id="userTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        // Declaring variables using var, let, and const
+        var globalVar = "This is a global variable";
+        let localVar = "This is a block-scoped variable";
+        const constantVar = "This value cannot be changed";
+
+        console.log(globalVar);
+        console.log(localVar);
+        console.log(constantVar);
+
+        // Function to calculate BMI
+        function calculateBMI() {
+            let weight = parseFloat(document.getElementById("weight").value);
+            let height = parseFloat(document.getElementById("height").value);
+
+            if (isNaN(weight) || isNaN(height) || height <= 0) {
+                document.getElementById("bmiResult").innerText = "Please enter valid values!";
+                return;
+            }
+
+            let bmi = weight / (height * height);
+            let category = "";
+
+            // Using if-else conditions to determine category
+            if (bmi < 18.5) {
+                category = "Underweight";
+            } else if (bmi >= 18.5 && bmi < 24.9) {
+                category = "Normal weight";
+            } else if (bmi >= 25 && bmi < 29.9) {
+                category = "Overweight";
+            } else {
+                category = "Obese";
+            }
+
+            document.getElementById("bmiResult").innerText = `BMI: ${bmi.toFixed(2)} (${category})`;
+        }
+
+        // Function to convert temperature
+        function convertTemperature() {
+            let temp = parseFloat(document.getElementById("temperature").value);
+            let unit = document.getElementById("unit").value;
+            let result = 0;
+
+            if (isNaN(temp)) {
+                document.getElementById("tempResult").innerText = "Please enter a valid temperature!";
+                return;
+            }
+
+            // Using switch-case for conversion
+            switch (unit) {
+                case "C":
+                    result = (temp * 9/5) + 32;
+                    document.getElementById("tempResult").innerText = `${temp}°C = ${result.toFixed(2)}°F`;
+                    break;
+                case "F":
+                    result = (temp - 32) * 5/9;
+                    document.getElementById("tempResult").innerText = `${temp}°F = ${result.toFixed(2)}°C`;
+                    break;
+                default:
+                    document.getElementById("tempResult").innerText = "Invalid selection!";
+            }
+        }
+
+        // Function to generate dynamic user table using loops
+        function generateUserTable() {
+            let users = [
+                { id: 1, name: "Alice", age: 25 },
+                { id: 2, name: "Bob", age: 30 },
+                { id: 3, name: "Charlie", age: 22 }
+            ];
+
+            let tableBody = document.querySelector("#userTable tbody");
+            tableBody.innerHTML = ""; // Clear previous data
+
+            // Using for loop to create table rows
+            for (let i = 0; i < users.length; i++) {
+                let row = document.createElement("tr");
+                row.innerHTML = `<td>${users[i].id}</td><td>${users[i].name}</td><td>${users[i].age}</td>`;
+                tableBody.appendChild(row);
+            }
+
+            // Using while loop (adding extra row for demo)
+            let j = 4;
+            while (j <= 5) {
+                let row = document.createElement("tr");
+                row.innerHTML = `<td>${j}</td><td>Guest ${j}</td><td>Unknown</td>`;
+                tableBody.appendChild(row);
+                j++;
+            }
+
+            // Using do-while loop (adding one more row for demo)
+            let k = 6;
+            do {
+                let row = document.createElement("tr");
+                row.innerHTML = `<td>${k}</td><td>New User ${k}</td><td>Unknown</td>`;
+                tableBody.appendChild(row);
+                k++;
+            } while (k <= 6);
+        }
+
+        // Call function to generate user table on page load
+        generateUserTable();
+    </script>
+
+</body>
+</html>
